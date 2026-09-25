@@ -5,11 +5,22 @@ date: "2026-09-21"
 output: github_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r}
+library(tidyverse)
 ```
 
 ```{r}
 data("penguins", package = "palmerpenguins")
 ```
 
+Here is some information on variables, dataset size, and mean flipper length:
+
+```{r}
+glimpse(penguins)
+
+penguins|>
+  drop_na(flipper_length_mm) |>
+  summarise(mean(flipper_length_mm))
+```
+
+The `penguins` dataset includes `r nrow(penguins)` rows and `r ncol(penguins)` columns. `r glimpse(penguins)`
