@@ -13,6 +13,11 @@ library(tidyverse)
 data("penguins", package = "palmerpenguins")
 ```
 
+The variables in the `penguins` dataset are: `r colnames(penguins)`. It includes `r nrow(penguins)` rows and `r ncol(penguins)` columns. The mean of `flipper_length_mm` is `r round(mean(pull(drop_na(penguins, flipper_length_mm), flipper_length_mm)),2)` mm.
+
 ```{r}
-penguins|>
-  drop_na(flipper_l
+ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, colour = species)) + geom_point()
+
+ggsave("penguins_scatterplot.png")
+```
+
