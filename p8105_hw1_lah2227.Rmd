@@ -21,3 +21,15 @@ penguins_plot = ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, 
 ggsave("penguins_scatterplot.png", plot = penguins_plot)
 ```
 
+```{r}
+set.seed(0)
+
+variable_df =
+  tibble(
+    samp_var = rnorm(10),
+    log_var = samp_var > 0,
+    char_var = c("a", "b", "c", "a", "b", "c", "a", "b", "c", "a"),
+    fact_var = factor(char_var)
+    )
+```
+
