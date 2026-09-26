@@ -5,21 +5,26 @@ date: "2026-09-21"
 output: github_document
 ---
 
-```{r}
+```{r message=FALSE}
 library(tidyverse)
 ```
+
+### Problem 1: Penguins Information and Plotting
 
 ```{r}
 data("penguins", package = "palmerpenguins")
 ```
 
-The variables in the `penguins` dataset are: `r colnames(penguins)`. It includes `r nrow(penguins)` rows and `r ncol(penguins)` columns. The mean of `flipper_length_mm` is `r round(mean(pull(drop_na(penguins, flipper_length_mm), flipper_length_mm)),2)` mm.
+The variables in the `penguins` dataset are: `r colnames(penguins)`. Each row describes an individual penguin. Some important variables include `species` with
+values Adelie, Gentoo, and Chinstrap, and `island` with values Torgersen, Biscoe, and Dream. The dataset includes `r nrow(penguins)` rows and `r ncol(penguins)` columns. The mean flipper length is `r round(mean(pull(drop_na(penguins, flipper_length_mm), flipper_length_mm)),2)` mm. 
 
 ```{r}
 penguins_plot = ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, colour = species)) + geom_point()
 
 ggsave("penguins_scatterplot.png", plot = penguins_plot)
 ```
+
+### Problem 2: Creating a Data Frame
 
 ```{r}
 set.seed(0)
@@ -33,3 +38,54 @@ variable_df =
     )
 ```
 
+`samp_var` mean
+
+```{r}
+variable_df |>
+  pull(samp_var) |>
+  mean()
+```
+
+`log_var` mean
+
+```{r}
+variable_df |>
+  pull(log_var) |>
+  mean()
+```
+
+`char_var` mean
+
+```{r}
+variable_df |>
+  pull(char_var) |>
+  mean()
+```
+
+`fact_var` mean
+
+```{r}
+variable_df |>
+  pull(fact_var) |>
+  mean()
+```
+
+`log_var` returns a mean because the `TRUE` and `FALSE` values are treated numerically as either 0 or 1. `char_var` returns `NA` due to the fact that it is not numerical or logical, and stores letters as its values. `fact_var` also returns `NA` due to its non numerical or logical nature. It stores its values as numbers but doesn't treat them as numeric. 
+
+Testing out `as.numeric`
+
+```{r warning=FALSE, results = 'hide'}
+variable_df |>
+  pull(log_var) |>
+  as.numeric()
+
+variable_df |>
+  pull(char_var) |>
+  as.numeric()
+
+variable_df |>
+  pull(fact_var) |>
+  as.numeric()
+```
+
+`char_var` cannot be converted to numerical due to the current letter nature of its values. `fact_var` needed to be converted into its underlying factor category codes from its current character categories, which is why you couldn't initially take the mean. 
